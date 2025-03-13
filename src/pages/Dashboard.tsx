@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { LogOut, Shield, Mail, Check } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import Logo from '@/components/common/Logo';
+import ThemeSwitcher from '@/components/common/ThemeSwitcher';
 
 const Dashboard: React.FC = () => {
   const { user, logout, isLoading } = useAuth();
@@ -37,13 +38,16 @@ const Dashboard: React.FC = () => {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Logo />
           
-          <button 
-            onClick={handleLogout}
-            className="flex items-center text-sm text-muted-foreground hover:text-foreground"
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign out
-          </button>
+          <div className="flex items-center gap-4">
+            <ThemeSwitcher />
+            <button 
+              onClick={handleLogout}
+              className="flex items-center text-sm text-muted-foreground hover:text-foreground"
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign out
+            </button>
+          </div>
         </div>
       </header>
       
