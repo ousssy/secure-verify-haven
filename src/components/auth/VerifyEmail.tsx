@@ -1,9 +1,10 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Loader2, Mail, ArrowLeft } from 'lucide-react';
+import { Loader2, Mail, ArrowLeft, Info } from 'lucide-react';
 import { verifyEmail } from '@/lib/auth';
 import { useToast } from '@/hooks/use-toast';
 import FadeTransition from '../common/FadeTransition';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface VerifyEmailProps {
   email: string;
@@ -82,22 +83,22 @@ const VerifyEmail: React.FC<VerifyEmailProps> = ({ email, onVerify, onBack }) =>
       
       if (success) {
         toast({
-          title: "Email verified",
-          description: "Your email has been successfully verified.",
+          title: "Email vérifié",
+          description: "Votre email a été vérifié avec succès.",
         });
         onVerify();
       } else {
         toast({
           variant: "destructive",
-          title: "Verification failed",
-          description: "The code you entered is invalid. Please try again.",
+          title: "Échec de vérification",
+          description: "Le code que vous avez entré est invalide. Veuillez réessayer.",
         });
       }
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Verification error",
-        description: "An unexpected error occurred.",
+        title: "Erreur de vérification",
+        description: "Une erreur inattendue s'est produite.",
       });
     } finally {
       setIsLoading(false);
@@ -106,8 +107,8 @@ const VerifyEmail: React.FC<VerifyEmailProps> = ({ email, onVerify, onBack }) =>
 
   const resendCode = () => {
     toast({
-      title: "Code resent",
-      description: `A new verification code has been sent to ${email}`,
+      title: "Code renvoyé",
+      description: `Un nouveau code de vérification a été envoyé à ${email}`,
     });
   };
 
@@ -119,9 +120,16 @@ const VerifyEmail: React.FC<VerifyEmailProps> = ({ email, onVerify, onBack }) =>
         </div>
       </div>
 
-      <p className="text-center text-muted-foreground mb-8">
-        We sent a verification code to <span className="font-medium text-foreground">{email}</span>
+      <p className="text-center text-muted-foreground mb-4">
+        Nous avons envoyé un code de vérification à <span className="font-medium text-foreground">{email}</span>
       </p>
+      
+      <Alert className="mb-6 bg-muted/50 text-muted-foreground border-muted">
+        <Info className="h-4 w-4 text-primary" />
+        <AlertDescription>
+          <span className="text-sm">Pour cette démo, vous pouvez utiliser n'importe quel code à 6 chiffres (ex: 123456)</span>
+        </AlertDescription>
+      </Alert>
       
       <div className="flex justify-center gap-2 mb-6">
         {code.map((digit, index) => (
@@ -149,7 +157,7 @@ const VerifyEmail: React.FC<VerifyEmailProps> = ({ email, onVerify, onBack }) =>
         {isLoading ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : null}
-        Verify
+        Vérifier
       </button>
 
       <div className="flex flex-col gap-3 text-center">
@@ -159,7 +167,7 @@ const VerifyEmail: React.FC<VerifyEmailProps> = ({ email, onVerify, onBack }) =>
           disabled={isLoading}
           className="text-sm text-primary hover:underline"
         >
-          Didn't receive a code? Resend
+          Vous n'avez pas reçu de code? Renvoyer
         </button>
         
         <button 
@@ -169,7 +177,7 @@ const VerifyEmail: React.FC<VerifyEmailProps> = ({ email, onVerify, onBack }) =>
           className="flex items-center justify-center text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="mr-1 h-3 w-3" />
-          Back to sign in
+          Retour à la connexion
         </button>
       </div>
     </FadeTransition>
